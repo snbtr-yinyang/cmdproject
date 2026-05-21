@@ -1,0 +1,49 @@
+# Build folders
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+
+# VS Code
+.vscode/
+
+# Publish folder
+publish/
+
+# Logs
+*.log
+
+# ASP.NET Core
+appsettings.Development.json
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# NuGet
+*.nupkg
+
+# Test results
+TestResults/
+
+# Temporary files
+tmp/
+temp/
+
+# Node modules (kalau nanti pakai frontend)
+node_modules/
+
+# Coverage
+coverage/
+
+# Environment
+.env
+.env.*
