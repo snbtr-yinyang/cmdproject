@@ -25,9 +25,17 @@ public sealed class AuthController(
         if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
             return BadRequest(new { message = "Username and password are required" });
 
+        // Project only needed fields to avoid materializing null columns into non-nullable CLR properties.
         var user = await db.AuthUsers
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Auth_UserName == request.Username, ct);
+            .Where(x => x.Auth_UserName == request.Username)
+            .Select(x => new
+            {
+                x.Users_Id,
+                Auth_UserName = x.Auth_UserName ?? string.Empty,
+                Auth_Password = x.Auth_Password ?? string.Empty
+            })
+            .FirstOrDefaultAsync(ct);
 
         if (user is null)
             return Unauthorized(new { message = "Invalid username/password" });

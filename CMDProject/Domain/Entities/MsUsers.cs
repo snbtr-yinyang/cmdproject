@@ -2,7 +2,7 @@ namespace CMDProject.Domain.Entities;
 
 public class MsUsers
 {
-    public Guid Users_Id { get; set; }
+    public int Users_Id { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
     public string Phone { get; set; }
