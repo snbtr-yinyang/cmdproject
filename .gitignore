@@ -23,6 +23,7 @@ publish/
 
 # ASP.NET Core
 appsettings.Development.json
+appsettings.json
 
 # OS files
 Thumbs.db
