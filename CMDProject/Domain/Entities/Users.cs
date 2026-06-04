@@ -1,6 +1,6 @@
 namespace CMDProject.Domain.Entities;
 
-public class MsUsers
+public class Users
 {
     public int Users_Id { get; set; }
     public string Name { get; set; }
