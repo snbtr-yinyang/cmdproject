@@ -4,9 +4,9 @@ using CMDProject.Domain.Entities;
 
 namespace CMDProject.Infrastructure.Persistence.Configurations;
 
-public class UserConfiguration : IEntityTypeConfiguration<MsUsers>
+public class UserConfiguration : IEntityTypeConfiguration<Users>
 {
-    public void Configure(EntityTypeBuilder<MsUsers> builder)
+    public void Configure(EntityTypeBuilder<Users> builder)
     {
         builder.ToTable("MsUsers");
 
