@@ -11,24 +11,31 @@ public class TokenConfiguration : IEntityTypeConfiguration<UserToken>
 
         builder.HasKey(x => x.IdToken);
 
-        builder.Property(x => x.Users_Id)
+        builder.Property(x => x.IdToken)
+            .HasColumnName("IdToken");
+
+        builder.Property(x => x.UserId)
+            .HasColumnName("UserId")
             .IsRequired();
 
         builder.Property(x => x.TokenName)
+            .HasColumnName("TokenName")
             .HasMaxLength(500)
             .IsRequired();
 
         builder.Property(x => x.ActiveStatus)
-            .HasMaxLength(1)
+            .HasColumnName("ActiveStatus")
             .IsRequired();
 
-        builder.Property(x => x.Expired_Date)
+        builder.Property(x => x.ExpiredDate)
+            .HasColumnName("ExpiredDate")
             .IsRequired();
 
-        builder.Property(x => x.Created_Date)
+        builder.Property(x => x.CreatedDate)
+            .HasColumnName("CreatedDate")
             .IsRequired();
 
-        builder.Property(x => x.Revoked_Date)
-            .IsRequired();
+        builder.Property(x => x.RevokedDate)
+            .HasColumnName("RevokedDate");
     }
 }
