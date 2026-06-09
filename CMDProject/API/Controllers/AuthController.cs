@@ -18,7 +18,7 @@ public class AuthController : ControllerBase
 
     [HttpPost("login/db")]
     public async Task<IActionResult> Login(
-        LoginRequest request,
+        [FromBody] LoginRequest request,
         CancellationToken ct)
     {
         var result =
@@ -32,7 +32,7 @@ public class AuthController : ControllerBase
 
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh(
-        RefreshTokenRequest request)
+        [FromBody] RefreshTokenRequest request)
     {
         var result =
             await _authService

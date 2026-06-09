@@ -10,23 +10,31 @@ public class AuthUserConfiguration : IEntityTypeConfiguration<AuthUsers>
     {
         builder.ToTable("MsAuthUsers");
 
-        builder.HasKey(x => x.AuthUsers_Id);
+        builder.HasKey(x => x.AuthUserId);
 
-        builder.Property(x => x.Users_Id)
+        builder.Property(x => x.AuthUserId)
+            .HasColumnName("AuthUserId");
+
+        builder.Property(x => x.UserId)
+            .HasColumnName("UserId")
             .IsRequired();
 
-        builder.Property(x => x.Auth_UserName)
+        builder.Property(x => x.AuthUserName)
+            .HasColumnName("AuthUserName")
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.Property(x => x.Auth_Password)
+        builder.Property(x => x.AuthPassword)
+            .HasColumnName("AuthPassword")
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.Property(x => x.Created_Date)
+        builder.Property(x => x.CreatedDate)
+            .HasColumnName("CreatedDate")
             .IsRequired();
 
-        builder.Property(x => x.Created_By)
+        builder.Property(x => x.CreatedBy)
+            .HasColumnName("CreatedBy")
             .HasMaxLength(50)
             .IsRequired();
     }

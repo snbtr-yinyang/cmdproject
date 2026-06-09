@@ -10,7 +10,7 @@ public class UserConfiguration : IEntityTypeConfiguration<Users>
     {
         builder.ToTable("MsUsers");
 
-        builder.HasKey(x => x.Users_Id);
+        builder.HasKey(x => x.UserId);
 
         builder.Property(x => x.Name)
             .HasMaxLength(100)
@@ -28,22 +28,22 @@ public class UserConfiguration : IEntityTypeConfiguration<Users>
             .HasMaxLength(15)
             .IsRequired();
 
-        builder.Property(x => x.Gender_Id)
+        builder.Property(x => x.GenderId)
             .HasMaxLength(10)
             .IsRequired();
 
-        builder.Property(x => x.Religion_Id)
+        builder.Property(x => x.ReligionId)
             .HasMaxLength(10)
             .IsRequired();
 
-        builder.Property(x => x.Is_Active)
+        builder.Property(x => x.IsActive)
             .HasMaxLength(1)
             .IsRequired();
 
-        builder.Property(x => x.Created_Date)
+        builder.Property(x => x.CreatedDate)
             .IsRequired();
 
-        builder.Property(x => x.Created_By)
+        builder.Property(x => x.CreatedBy)
             .HasMaxLength(50)
             .IsRequired();
     }

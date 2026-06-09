@@ -29,14 +29,22 @@ public class AuthService : IAuthService
         LoginRequest request,
         CancellationToken ct)
     {
+        if (string.IsNullOrWhiteSpace(request.Username))
+            throw new UnauthorizedAccessException("Username is required");
+
+        if (string.IsNullOrWhiteSpace(request.Password))
+            throw new UnauthorizedAccessException("Password is required");
+
+        var normalizedUsername = request.Username.Trim();
+
         var user = await _db.AuthUsers
             .AsNoTracking()
-            .Where(x => x.Auth_UserName == request.Username)
+            .Where(x => x.AuthUserName == normalizedUsername)
             .Select(x => new
             {
-                x.Users_Id,
-                Username = x.Auth_UserName ?? string.Empty,
-                Password = x.Auth_Password ?? string.Empty
+                x.UserId,
+                Username = x.AuthUserName ?? string.Empty,
+                Password = x.AuthPassword ?? string.Empty
             })
             .FirstOrDefaultAsync(ct);
 
@@ -53,7 +61,7 @@ public class AuthService : IAuthService
 
         var accessToken =
             _jwtService.CreateToken(
-                user.Users_Id.ToString(),
+                user.UserId.ToString(),
                 new[]
                 {
                     new Claim("username", user.Username),
@@ -62,16 +70,16 @@ public class AuthService : IAuthService
 
         var refreshToken =
             _jwtService.CreateRefreshToken(
-                user.Users_Id.ToString());
+                user.UserId.ToString());
 
         await _tokenRepository.AddAsync(
             new UserToken
             {
-                UserId = user.Users_Id,
+                UserId = user.UserId,
                 TokenName = refreshToken,
                 ActiveStatus = true,
-                Created_Date = DateTime.UtcNow,
-                Expired_Date = DateTime.UtcNow.AddDays(7)
+                CreatedDate = DateTime.UtcNow,
+                ExpiredDate = DateTime.UtcNow.AddDays(7)
             });
 
         return new LoginResponse
@@ -100,11 +108,11 @@ public class AuthService : IAuthService
         if (!storedToken.ActiveStatus)
             throw new UnauthorizedAccessException();
 
-        if (storedToken.Expired_Date < DateTime.UtcNow)
+        if (storedToken.ExpiredDate < DateTime.UtcNow)
             throw new UnauthorizedAccessException();
 
         storedToken.ActiveStatus = false;
-        storedToken.Revoked_Date = DateTime.UtcNow;
+        storedToken.RevokedDate = DateTime.UtcNow;
 
         await _tokenRepository.UpdateAsync(
             storedToken);
@@ -126,8 +134,8 @@ public class AuthService : IAuthService
                 UserId = storedToken.UserId,
                 TokenName = newRefreshToken,
                 ActiveStatus = true,
-                Created_Date = DateTime.UtcNow,
-                Expired_Date = DateTime.UtcNow.AddDays(7)
+                CreatedDate = DateTime.UtcNow,
+                ExpiredDate = DateTime.UtcNow.AddDays(7)
             });
 
         return new LoginResponse
